@@ -19,50 +19,33 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 -->
 
 <template>
-	<Content :class="{'icon-loading': loading}" app-name="projectbook">
-		<AppNavigation />
-		<AppContentVue>
-			<!--RouterView /-->
-			<AppContent />
-		</AppContentVue>
-	</Content>
+	<AppNavigationSettings>
+		<div>{{ t('projectbook', 'Not implemented yet') }}</div>
+	</AppNavigationSettings>
 </template>
 
 <script>
-import AppNavigation from './views/AppNavigation'
-import AppContent from './views/AppContent'
-import { Content, AppContent as AppContentVue } from '@nextcloud/vue'
-
+import { translate as t } from '@nextcloud/l10n'
+import AppNavigationSettings from '@nextcloud/vue/dist/Components/AppNavigationSettings'
 export default {
-	name: 'App',
 	components: {
-		AppNavigation,
-		Content,
-		AppContentVue,
-		AppContent,
+		AppNavigationSettings,
 	},
 	data() {
-		return {
-			loading: true,
-		}
+		
+	},
+	computed: {
+
 	},
 	methods: {
-		log() {
-			console.debug(arguments)
-		},
+		t
 	},
 }
 </script>
-<style scoped>
-	#app-content > div {
-		width: 100%;
-		height: 100%;
-		padding: 20px;
-		display: flex;
-		flex-direction: column;
-		flex-grow: 1;
-	}
+
+<style lang="scss" scoped>
 </style>
