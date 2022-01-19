@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>projectbook</id>
+    <name>ProjectBook</name>
+    <summary>An app to document and share your private projects</summary>
+    <description><![CDATA[test]]></description>
+    <version>0.0.0</version>
+    <licence>agpl</licence>
+	<author mail="johannes@szeibert.de">Johannes Szeibert</author>
+    <namespace>projectbook</namespace>
+    <category>tools</category>
+    <bugs>https://github.com</bugs>
+    <dependencies>
+        <nextcloud min-version="19" max-version="22"/>
+    </dependencies>
+    <navigations>
+        <navigation>
+            <name>ProjectBook</name>
+            <route>projectbook.page.index</route>
+        </navigation>
+    </navigations>
+</info>
