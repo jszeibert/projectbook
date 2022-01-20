@@ -23,32 +23,8 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\ProjectBook\Db;
+namespace OCA\ProjectBook\Service;
 
-use JsonSerializable;
+use Exception;
 
-use OCP\AppFramework\Db\Entity;
-
-class Project extends Entity implements JsonSerializable {
-	protected $title;
-	protected $color;
-	protected $description;
-	protected $archived = false;
-	protected $userId;
-
-	public function __construct() {
-		$this->addType('title', 'string');
-		$this->addType('color', 'string');
-		$this->addType('archived', 'boolean');
-	}
-
-	public function jsonSerialize(): array {
-		return [
-			'id' => $this->id,
-			'title' => $this->title,
-			'color' => $this->color,
-			'description' => $this->description,
-			'archived' => $this->archived
-		];
-	}
-}
+class ServiceException extends Exception {}

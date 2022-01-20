@@ -23,32 +23,25 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\ProjectBook\Db;
+namespace OCA\ProjectBook\Controller;
 
-use JsonSerializable;
+use Closure;
 
-use OCP\AppFramework\Db\Entity;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
 
-class Project extends Entity implements JsonSerializable {
-	protected $title;
-	protected $color;
-	protected $description;
-	protected $archived = false;
-	protected $userId;
+use OCA\ProjectBook\Service\NotFoundException;
 
-	public function __construct() {
-		$this->addType('title', 'string');
-		$this->addType('color', 'string');
-		$this->addType('archived', 'boolean');
+
+trait Errors {
+
+	protected function handleNotFound (Closure $callback) {
+		try {
+			return new DataResponse($callback());
+		} catch(NotFoundException $e) {
+			$message = ['message' => $e->getMessage()];
+			return new DataResponse($message, Http::STATUS_NOT_FOUND);
+		}
 	}
 
-	public function jsonSerialize(): array {
-		return [
-			'id' => $this->id,
-			'title' => $this->title,
-			'color' => $this->color,
-			'description' => $this->description,
-			'archived' => $this->archived
-		];
-	}
 }

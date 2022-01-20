@@ -22,7 +22,11 @@
  */
 
 return [
+	'resources' => [
+		'project' => ['url' => '/project'],
+		'entry' => ['url' => '/entry']
+	],
 	'routes' => [
-		['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
+		['name' => 'page#index', 'url' => '/', 'verb' => 'GET']
 	]
 ];

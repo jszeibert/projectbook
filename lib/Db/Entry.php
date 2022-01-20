@@ -29,16 +29,18 @@ use JsonSerializable;
 
 use OCP\AppFramework\Db\Entity;
 
-class Project extends Entity implements JsonSerializable {
+class Entry extends Entity implements JsonSerializable {
 	protected $title;
-	protected $color;
-	protected $description;
+	protected $type;
+	protected $content;
+	protected $projectId;
 	protected $archived = false;
 	protected $userId;
 
 	public function __construct() {
 		$this->addType('title', 'string');
-		$this->addType('color', 'string');
+		$this->addType('type', 'string');
+		$this->addType('projectId', 'integer');
 		$this->addType('archived', 'boolean');
 	}
 
@@ -47,7 +49,8 @@ class Project extends Entity implements JsonSerializable {
 			'id' => $this->id,
 			'title' => $this->title,
 			'color' => $this->color,
-			'description' => $this->description,
+			'content' => $this->content,
+			'projectId' => $this->projectId,
 			'archived' => $this->archived
 		];
 	}

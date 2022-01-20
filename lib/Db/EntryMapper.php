@@ -32,23 +32,23 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
-class ProjectMapper extends QBMapper {
+class EntryMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, Application::APP_ID.'_projects', Project::class);
+		parent::__construct($db, Application::APP_ID.'_entries', Entry::class);
 	}
 
 	/**
 	 * @param int $id
 	 * @param string $userId
-	 * @return Entity|Project
+	 * @return Entity|Entry
 	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
 	 * @throws DoesNotExistException
 	 */
-	public function find(int $id, string $userId): Project {
+	public function find(int $id, string $userId): Entry {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
-			->from(Application::APP_ID.'_projects')
+			->from(Application::APP_ID.'_entries')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
 		return $this->findEntity($qb);
@@ -62,8 +62,34 @@ class ProjectMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
-			->from(Application::APP_ID.'_projects')
+			->from(Application::APP_ID.'_entries')
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
+		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @param string $userId
+	 * @return array
+	 */
+	public function countAll(string $userId): array {
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+		$qb->select($qb->func()->count('id'))
+			->from(Application::APP_ID.'_entries')
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
+		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @param integer $projectId
+	 * @return array
+	 */
+	public function findAllByProject(int $projectId): array {
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from(Application::APP_ID.'_entries')
+			->where($qb->expr()->eq('project_id', $qb->createNamedParameter($projectId)));
 		return $this->findEntities($qb);
 	}
 }

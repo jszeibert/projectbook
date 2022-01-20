@@ -1,7 +1,17 @@
+
+app_name=$(notdir $(CURDIR))
+build_tools_directory=$(CURDIR)/build/tools
+composer=$(shell which composer 2> /dev/null)
+
+
 all: dev-setup lint build-js-production test
 
 # Dev env management
-dev-setup: clean clean-dev npm-init
+dev-setup: clean clean-dev composer npm-init
+
+composer:
+	composer install --prefer-dist
+	composer update --prefer-dist
 
 npm-init:
 	npm ci
@@ -18,16 +28,6 @@ build-js-production:
 
 watch-js:
 	npm run watch
-
-# Testing
-test:
-	npm run test
-
-test-watch:
-	npm run test:watch
-
-test-coverage:
-	npm run test:coverage
 
 # Linting
 lint:
@@ -49,4 +49,20 @@ clean:
 
 clean-dev:
 	rm -rf node_modules
+
+
+# Testing
+test: test-unit test-js	
+
+test-unit:
+	./vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml
+
+test-js:
+	npm run test
+
+test-watch:
+	npm run test:watch
+
+test-coverage:
+	npm run test:coverage
 
