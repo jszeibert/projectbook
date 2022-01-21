@@ -56,6 +56,7 @@ test: test-unit test-js
 
 test-unit:
 	./vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml
+	./vendor/phpunit/phpunit/phpunit -c tests/phpunit.integration.xml
 
 test-js:
 	npm run test

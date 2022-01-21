@@ -53,7 +53,7 @@ class ProjectIntegrationTest extends TestCase {
 		$updatedproject->setColor('color');
 		$updatedproject->setTitle('title');
 
-		$result = $this->controller->update($id, 'title', 'color', 'content');
+		$result = $this->controller->update($id, 'title', 'color', 'description');
 
 		$this->assertEquals($updatedproject, $result->getData());
 

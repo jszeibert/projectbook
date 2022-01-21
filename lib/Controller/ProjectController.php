@@ -33,91 +33,89 @@ use OCA\ProjectBook\Service\ProjectService;
 
 class ProjectController extends Controller
 {
-    private $service;
-    private $userId;
+	private $service;
+	private $userId;
 
-    use Errors;
+	use Errors;
 
-    public function __construct(
-        string $AppName,
-        IRequest $request,
-        ProjectService $service,
-        $UserId
-    )
+	public function __construct($appName,
+                                IRequest $request,
+								ProjectService $service,
+								$userId) 
     {
-        parent::__construct($AppName, $request);
-        $this->service = $service;
-        $this->userId = $UserId;
-    }
+		parent::__construct($appName, $request);
+		$this->service = $service;
+		$this->userId = $userId;
+	}
 
-    /**
-     * @NoAdminRequired
-     */
-    public function index()
-    {
-        return new DataResponse($this->service->findAll($this->userId));
-    }
+	/**
+	 * @NoAdminRequired
+	 */
+	public function index()
+	{
+		return new DataResponse($this->service->findAll($this->userId));
+	}
 
-    /**
-     * @NoAdminRequired
-     *
-     * @param int $id
-     */
-    public function show(int $id)
-    {
-        return $this->handleNotFound(function () use ($id) {
-            return $this->service->find($id, $this->userId);
-        });
-    }
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param int $id
+	 */
+	public function show(int $id)
+	{
+		return $this->handleNotFound(function () use ($id) {
+			return $this->service->find($id, $this->userId);
+		});
+	}
 
-    /**
-     * @NoAdminRequired
-     *
-     * @param string $title
-     * @param string $color
-     * @param string $description
-     */
-    public function create(string $title, string $color, string $description)
-    {
-        return $this->service->create($title, $color, $description, $this->userId);
-    }
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $title
+	 * @param string $color
+	 * @param string $description
+	 */
+	public function create(string $title, string $color, string $description)
+	{
+		return $this->service->create($title, $color, $description, $this->userId);
+	}
 
-    /**
-     * @NoAdminRequired
-     *
-     * @param int $id
-     * @param string $title
-     * @param string $color
-     * @param string $description
-     */
-    public function update(int $id, string $title, string $color, string $description)
-    {
-        return $this->handleNotFound(function () use ($id, $title, $color, $description) {
-            return $this->service->update($id, $title, $color, $description, $this->userId);
-        });
-    }
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param int $id
+	 * @param string $title
+	 * @param string $color
+	 * @param string $description
+	 */
+	public function update(int $id, string $title, string $color, string $description)
+	{
+		return $this->handleNotFound(function () use ($id, $title, $color, $description) {
+			return $this->service->update($id, $title, $color, $description, $this->userId);
+		});
+	}
 
-    /**
-     * @NoAdminRequired
-     *
-     * @param int $id
-     */
-    public function archive(int $id)
-    {
-        return $this->handleNotFound(function () use ($id) {
-            return $this->service->archive($id, $this->userId);
-        });
-    }
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param int $id
+	 */
+	public function archive(int $id)
+	{
+		return $this->handleNotFound(function () use ($id) {
+			return $this->service->archive($id, $this->userId);
+		});
+	}
 
-    /**
-     * @NoAdminRequired
-     *
-     * @param int $id
-     */
-    public function destroy(int $id)
-    {
-        return $this->handleNotFound(function () use ($id) {
-            return $this->service->delete($id, $this->userId);
-        });
-    }
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param int $id
+	 */
+	public function destroy(int $id)
+	{
+		return $this->handleNotFound(function () use ($id) {
+			return $this->service->delete($id, $this->userId);
+		});
+	}
 }
