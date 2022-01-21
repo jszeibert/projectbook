@@ -72,7 +72,7 @@ declare(strict_types=1);
 			]);
 
 			$table->setPrimaryKey(['id']);
-			$table->addIndex(['user_id'], 'user_id_index');
+			$table->addIndex(['user_id'], 'puid_index');
 		}
 
 		if (!$schema->hasTable(Application::APP_ID.'_entries')) {
@@ -107,8 +107,8 @@ declare(strict_types=1);
 			]);
 
 			$table->setPrimaryKey(['id']);
-			$table->addIndex(['project_id'], 'project_id_index');
-			$table->addIndex(['user_id'], 'user_id_index');
+			$table->addIndex(['project_id'], 'pid_index');
+			$table->addIndex(['user_id'], 'euid_index');
 		}
 		return $schema;
 	}
