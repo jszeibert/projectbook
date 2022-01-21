@@ -19,50 +19,21 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 -->
 
 <template>
-	<Content :class="{'icon-loading': loading}" app-name="projectbook">
-		<AppNavigation />
-		<AppContentVue>
-			<!--RouterView /-->
-			<AppContent />
-		</AppContentVue>
-	</Content>
+	<div>
+		<Header />
+		<div>Here are supposed to be the journal entries</div>
+	</div>
 </template>
 
 <script>
-import AppNavigation from './views/AppNavigation'
-import AppContent from './views/AppContent'
-import { Content, AppContent as AppContentVue } from '@nextcloud/vue'
-
+import Header from '../../components/Header'
 export default {
-	name: 'App',
 	components: {
-		AppNavigation,
-		Content,
-		AppContentVue,
-		AppContent,
-	},
-	data() {
-		return {
-			loading: true,
-		}
-	},
-	methods: {
-		log() {
-			console.debug(arguments)
-		},
+		Header,
 	},
 }
 </script>
-<style scoped>
-	#app-content > div {
-		width: 100%;
-		height: 100%;
-		padding: 20px;
-		display: flex;
-		flex-direction: column;
-		flex-grow: 1;
-	}
-</style>
