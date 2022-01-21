@@ -25,16 +25,18 @@ namespace OCA\ProjectBook\Tests\Unit\Service;
 
 use PHPUnit\Framework\TestCase;
 
+use OCA\ProjectBook\Service\NotFoundException;
 use OCP\AppFramework\Db\DoesNotExistException;
 
 use OCA\ProjectBook\Db\Project;
 use OCA\ProjectBook\Service\ProjectService;
+use OCA\ProjectBook\Db\ProjectMapper;
 
 class ProjectServiceTest extends TestCase {
 
 	private $service;
 	private $mapper;
-	private $userId = 'john';
+	private $userId = 'jones';
 
 	public function setUp(): void {
 		$this->mapper = $this->getMockBuilder('OCA\ProjectBook\Db\ProjectMapper')
@@ -48,7 +50,7 @@ class ProjectServiceTest extends TestCase {
 		$project = Project::fromRow([
 			'id' => 3,
 			'title' => 'title',
-			'color' => '#ff5733',
+			'color' => 'color',
 			'description' => 'description'
 		]);
 		$this->mapper->expects($this->once())
@@ -58,9 +60,9 @@ class ProjectServiceTest extends TestCase {
 
 		// the project when updated
 		$updatedProject = Project::fromRow(['id' => 3]);
-		$updatedProject->setTitle('title');
-		$updatedProject->setColor('color');
-		$updatedProject->setDescription('description');
+		$updatedProject->setTitle('Projectname');
+		$updatedProject->setColor('#ff5733');
+		$updatedProject->setDescription('ProjectDescription');
 		$this->mapper->expects($this->once())
 			->method('update')
 			->with($this->equalTo($updatedProject))
@@ -69,17 +71,14 @@ class ProjectServiceTest extends TestCase {
 		$result = $this->service->update(3, 
 			'Projectname', 
 			'#ff5733', 
-			'description',
+			'ProjectDescription',
 			$this->userId);
 
 		$this->assertEquals($updatedProject, $result);
 	}
 
-
-	/**
-	 * @expectedException OCA\ProjectBook\Service\NotFoundException
-	 */
 	public function testUpdateNotFound() {
+		$this->expectException(NotFoundException::class);
 		// test the correct status code if no project is found
 		$this->mapper->expects($this->once())
 			->method('find')

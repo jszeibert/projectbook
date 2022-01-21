@@ -14,7 +14,7 @@ use OCA\ProjectBook\Controller\ProjectController;
 class ProjectIntegrationTest extends TestCase {
 	private $controller;
 	private $mapper;
-	private $userId = 'john';
+	private $userId = 'jones';
 
 	public function setUp(): void {
 		$app = new App('projectbook');

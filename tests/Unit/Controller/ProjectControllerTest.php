@@ -36,7 +36,7 @@ class ProjectControllerTest extends TestCase {
 
 	protected $controller;
 	protected $service;
-	protected $userId = 'john';
+	protected $userId = 'jones';
 	protected $request;
 
 	public function setUp(): void {
@@ -60,7 +60,7 @@ class ProjectControllerTest extends TestCase {
 				   $this->equalTo($this->userId))
 			->will($this->returnValue($project));
 
-		$result = $this->controller->update(3, 'title', 'color', 'content');
+		$result = $this->controller->update(3, 'title', 'color', 'description');
 
 		$this->assertEquals($project, $result->getData());
 	}

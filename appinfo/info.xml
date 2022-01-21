@@ -8,7 +8,7 @@
 	<version>0.1.0</version>
 	<licence>agpl</licence>
 	<author mail="johannes@szeibert.de">Johannes Szeibert</author>
-	<namespace>projectbook</namespace>
+	<namespace>ProjectBook</namespace>
 	<category>tools</category>
 	<bugs>https://github.com</bugs>
 	<dependencies>
