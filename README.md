@@ -1,4 +1,5 @@
 [![PHPUnit](https://github.com/jszeibert/projectbook/actions/workflows/phpunit.yml/badge.svg)](https://github.com/jszeibert/projectbook/actions/workflows/phpunit.yml)
+[![Node](https://github.com/jszeibert/projectbook/actions/workflows/node.yml/badge.svg)](https://github.com/jszeibert/projectbook/actions/workflows/node.yml)
 
 # ProjectBook app for Nextcloud
 
