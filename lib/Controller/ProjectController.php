@@ -100,6 +100,18 @@ class ProjectController extends Controller
 	 *
 	 * @param int $id
 	 */
+	public function destroy(int $id)
+	{
+		return $this->handleNotFound(function () use ($id) {
+			return $this->service->delete($id, $this->userId);
+		});
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param int $id
+	 */
 	public function archive(int $id)
 	{
 		return $this->handleNotFound(function () use ($id) {
@@ -112,10 +124,10 @@ class ProjectController extends Controller
 	 *
 	 * @param int $id
 	 */
-	public function destroy(int $id)
+	public function restore(int $id)
 	{
 		return $this->handleNotFound(function () use ($id) {
-			return $this->service->delete($id, $this->userId);
+			return $this->service->restore($id, $this->userId);
 		});
 	}
 }

@@ -30,19 +30,65 @@ use OCP\AppFramework\Db\DoesNotExistException;
 
 use OCA\ProjectBook\Db\Project;
 use OCA\ProjectBook\Service\ProjectService;
-use OCA\ProjectBook\Db\ProjectMapper;
+use OCA\ProjectBook\Db\ProjectprojectMapper;
 
 class ProjectServiceTest extends TestCase {
 
 	private $service;
-	private $mapper;
+	private $projectMapper;
 	private $userId = 'jones';
 
 	public function setUp(): void {
-		$this->mapper = $this->getMockBuilder('OCA\ProjectBook\Db\ProjectMapper')
+		$this->projectMapper = $this->getMockBuilder('OCA\ProjectBook\Db\ProjectMapper')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->service = new ProjectService($this->mapper);
+		$this->service = new ProjectService($this->projectMapper);
+	}
+
+	public function testFind() {
+		$p = new Project();
+		$p->setId(1);
+		$this->projectMapper->expects($this->once())
+			->method('find')
+			->with(1)
+			->willReturn($p);
+		$this->assertEquals($p, $this->service->find(1,$this->userId));
+	}
+
+	public function testFindAll() {
+		$p1 = new Project();
+		$p1->setId(1);
+		$p2 = new Project();
+		$p2->setId(2);
+		$p3 = new Project();
+		$p3->setId(3);
+		$this->projectMapper->expects($this->once())
+			->method('findAll')
+			->with($this->userId)
+			->willReturn([$p1, $p2, $p3]);
+
+		$result = $this->service->findAll($this->userId);
+		sort($result);
+		$this->assertEquals([$p1, $p2, $p3], $result);
+	}
+
+	public function testCreate() {
+		$project = Project::fromRow([
+			'id' => 3,
+			'title' => 'My project',
+			'color' => '00ff00',
+			'description' => 'some description',
+			'user_id' => $this->userId
+		]);
+		$this->projectMapper->expects($this->once())
+			->method('insert')
+			->willReturn($project);
+		$p = $this->service->create('My project', '00ff00', 'some description', $this->userId);
+
+		$this->assertEquals($p->getTitle(), 'My project');
+		$this->assertEquals($p->getColor(), '00ff00');
+		$this->assertEquals($p->getDescription(), 'some description');
+		$this->assertEquals($p->getUserId(), $this->userId);
 	}
 
 	public function testUpdate() {
@@ -53,7 +99,7 @@ class ProjectServiceTest extends TestCase {
 			'color' => 'color',
 			'description' => 'description'
 		]);
-		$this->mapper->expects($this->once())
+		$this->projectMapper->expects($this->once())
 			->method('find')
 			->with($this->equalTo(3))
 			->will($this->returnValue($project));
@@ -63,7 +109,7 @@ class ProjectServiceTest extends TestCase {
 		$updatedProject->setTitle('Projectname');
 		$updatedProject->setColor('#ff5733');
 		$updatedProject->setDescription('ProjectDescription');
-		$this->mapper->expects($this->once())
+		$this->projectMapper->expects($this->once())
 			->method('update')
 			->with($this->equalTo($updatedProject))
 			->will($this->returnValue($updatedProject));
@@ -80,12 +126,11 @@ class ProjectServiceTest extends TestCase {
 	public function testUpdateNotFound() {
 		$this->expectException(NotFoundException::class);
 		// test the correct status code if no project is found
-		$this->mapper->expects($this->once())
+		$this->projectMapper->expects($this->once())
 			->method('find')
 			->with($this->equalTo(3))
 			->will($this->throwException(new DoesNotExistException('')));
 
 		$this->service->update(3, 'title', 'color', 'description', $this->userId);
 	}
-
 }

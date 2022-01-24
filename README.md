@@ -1,3 +1,5 @@
+[![PHPUnit](https://github.com/jszeibert/projectbook/actions/workflows/phpunit.yml/badge.svg)](https://github.com/jszeibert/projectbook/actions/workflows/phpunit.yml)
+
 # ProjectBook app for Nextcloud
 
 A nextcloud app to journal and organize your private projects

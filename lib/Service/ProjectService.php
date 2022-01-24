@@ -89,16 +89,6 @@ class ProjectService {
 		}
 	}
 
-	public function archive(int $id, string $userId) {
-		try {
-			$project = $this->mapper->find($id, $userId);
-			$project->setArchived(true);
-			return $this->mapper->update($project);
-		} catch(Exception $e) {
-			$this->handleException($e);
-		}
-	}
-
 	public function delete(int $id, string $userId) {
 		try {
 			$project = $this->mapper->find($id, $userId);
@@ -109,4 +99,26 @@ class ProjectService {
 		}
 	}
 
+	// TODO: At the moment this function only edits a Database field, but should do a lot more at a later stage,
+	// 		e.g. move dependent files and bundle them into a zip archive, compile a summary of special entries, etc.
+	public function archive(int $id, string $userId) {
+		try {
+			$project = $this->mapper->find($id, $userId);
+			$project->setArchived(true);
+			return $this->mapper->update($project);
+		} catch(Exception $e) {
+			$this->handleException($e);
+		}
+	}
+
+	// TODO: This is the reverse of the archive function
+	public function restore(int $id, string $userId) {
+		try {
+			$project = $this->mapper->find($id, $userId);
+			$project->setArchived(false);
+			return $this->mapper->update($project);
+		} catch(Exception $e) {
+			$this->handleException($e);
+		}
+	}
 }
